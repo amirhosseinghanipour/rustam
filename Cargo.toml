@@ -1,0 +1,42 @@
+[package]
+name = "rustam"
+version = "0.1.0"
+edition = "2021"
+authors = ["Amirhossein Ghanipour <d3v1ll3n@gmail.com>"]
+description = "Full Persian NLP pipeline for Rust — normalization, tokenization, stemming, lemmatization, conjugation, spell correction, and more"
+license = "MIT"
+keywords = ["nlp", "persian", "farsi", "nlp-library", "text-processing"]
+categories = ["text-processing", "science"]
+homepage = "https://github.com/amirhosseinghanipour/rustam"
+repository = "https://github.com/amirhosseinghanipour/rustam"
+documentation = "https://docs.rs/rustam"
+readme = "README.md"
+rust-version = "1.70"
+exclude = [".github/", "tests/"]
+
+[features]
+## Enables POSTagger and Chunker from the crftag crate.
+pos = ["dep:crftag"]
+## Enables NerTagger from the nerrs crate.
+ner = ["dep:nerrs"]
+## Enables PipelineParser (POSTagger + Lemmatizer → DependencyParser).
+dep-parsing = ["dep:arc-eager", "pos"]
+## Enables rustam::download() for fetching models from HF Hub.
+hf-hub = ["dep:hf-hub"]
+## Enables all optional NLP components.
+full = ["pos", "ner", "dep-parsing", "hf-hub"]
+
+[dependencies]
+fancy-regex = "0.14"
+once_cell = "1"
+thiserror = "2"
+quick-xml = { version = "0.37", features = ["encoding"] }
+crftag    = { package = "crftag",    version = "0.1", optional = true }
+nerrs     = { package = "nerrs",     version = "0.1", optional = true }
+arc-eager = { package = "arc-eager", version = "0.1", optional = true }
+hf-hub    = { version = "0.3",       optional = true }
+
+[dev-dependencies]
+crftag    = { package = "crftag",    version = "0.1" }
+nerrs     = { package = "nerrs",     version = "0.1" }
+arc-eager = { package = "arc-eager", version = "0.1" }
